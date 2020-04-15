@@ -1,5 +1,5 @@
 # parameters
-ARG REPO_NAME="<REPO_NAME_HERE>"
+ARG REPO_NAME="db19-read-encoders"
 
 # ==================================================>
 # ==> Do not change this code
@@ -25,6 +25,19 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     $(awk -F: '/^[^#]/ { print $1 }' dependencies-apt.txt | uniq) \
   && rm -rf /var/lib/apt/lists/*
+
+
+
+# added pigpio library setup here
+WORKDIR /home/software/pigpio
+RUN wget https://github.com/joan2937/pigpio/archive/master.zip \
+	&& unzip master.zip \
+	&& cd pigpio-master \
+	&& make \
+	&& make install
+
+WORKDIR "${REPO_PATH}"
+
 
 # install python dependencies
 COPY ./dependencies-py.txt "${REPO_PATH}/"
@@ -61,4 +74,4 @@ LABEL org.duckietown.label.base.image "${BASE_IMAGE}:${BASE_TAG}"
 # <==================================================
 
 # maintainer
-LABEL maintainer="<YOUR_FULL_NAME> (<YOUR_EMAIL_ADDRESS>)"
+LABEL maintainer="haumarco, github"

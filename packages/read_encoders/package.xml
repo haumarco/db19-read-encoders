@@ -1,0 +1,12 @@
+<package>
+  <name>read_encoders</name>
+  <version>0.1.0</version>
+  <description>
+  reads encoders of db19
+  </description>
+  <maintainer email="haumarco@ethz.ch">haumarco</maintainer>
+  <license>None</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

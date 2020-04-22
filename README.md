@@ -1,3 +1,12 @@
+# Info:
+This repo is based on mech-4640/db-read-encoders. I changed a lot in the encoder_ticks_node.py file since there occured some bugs. I also changed the installation of the pigpio. The rest is more or less the same.
+To read the code you need to have the EncoderTicksStamped.msg file in dt-ros-commons. Since it's not in the master branch yet, you can download it from haumarco/dt-ros-commons.
+
+    build it:
+    $ dts devel build -f --arch arm32v7
+    run it:
+    $ docker -H ueli.local run --name read_encoders -it --rm --privileged --net=host duckietown/db19-read-encoders:v1-arm32v7
+
 # Template: template-ros
 
 This template provides a boilerplate repository

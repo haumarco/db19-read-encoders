@@ -26,7 +26,6 @@ class MyNode(DTROS):
 		self.wheel_dir_right = WheelsCmdStamped()
 		self.sub_wheel_dir =rospy.Subscriber("wheels_driver_node/wheels_cmd_executed", WheelsCmdStamped, self.update_wheel_direction, queue_size=1)
 
-		####################
 		self.left_ticks=0
 		self.right_ticks=0
 		self.last_left_ticks = 0
@@ -53,9 +52,9 @@ class MyNode(DTROS):
 
 	def run(self):
 
-		rospy.loginfo("Encoder ticks node has reached the main run function and is running")
+		rospy.loginfo("encoder_ticks_node is up and running")
 
-		rate = rospy.Rate(20) # Hz - User can adjust this.
+		rate = rospy.Rate(25) # Hz - User can adjust this.
 
 		self.lastcb_left = self.cb_left.tally()
 		self.lastcb_right = self.cb_right.tally()
@@ -66,6 +65,7 @@ class MyNode(DTROS):
 			tally_right = self.cb_right.tally()
 			self.left_ticks += (tally_left - self.lastcb_left) * np.sign(self.wheel_dir_left)
 			self.right_ticks += (tally_right - self.lastcb_right) * np.sign(self.wheel_dir_right)
+			# if one does want to output total ticks count
 			#self.left_ticks = (tally_left - self.lastcb_left) * np.sign(self.wheel_dir_left)
 			#self.right_ticks = (tally_right - self.lastcb_right) * np.sign(self.wheel_dir_right)
 			self.lastcb_left = tally_left
@@ -77,7 +77,7 @@ class MyNode(DTROS):
 				self.msg.right_ticks = self.right_ticks
 				self.pub.publish(self.msg)
 				# for analysing purposes:
-				rospy.loginfo("Published %d %d @ secs: %d nsecs: %d" % (self.msg.left_ticks, self.msg.right_ticks, self.msg.header.stamp.secs, self.msg.header.stamp.nsecs))
+				#rospy.loginfo("Published %d %d @ secs: %d nsecs: %d" % (self.msg.left_ticks, self.msg.right_ticks, self.msg.header.stamp.secs, self.msg.header.stamp.nsecs))
 			
 			self.last_left_ticks = self.left_ticks
 			self.last_right_ticks = self.right_ticks
@@ -89,7 +89,6 @@ class MyNode(DTROS):
 if __name__ == '__main__':
 	# create the node
 	node = MyNode(node_name='my_node')
-	# run node
 	node.run()
 	# keep spinning
 	rospy.spin()
